@@ -66,7 +66,7 @@ public class Trie {
         return t;
     }
 
-    // returns a list of words in the trie tree that starts with the prefix
+    // returns 10 words in the trie tree that starts with the prefix
     public ArrayList<String> getWordsStartsWith(String prefix) {
         ArrayList<String> words = new ArrayList<String>();
         TrieNode t = searchNode(prefix);
@@ -78,6 +78,11 @@ public class Trie {
     }
 
     private void searchWordsHelper(ArrayList<String> words, TrieNode t, String word) {
+        // limit the size of returned list to 10
+        if (words.size() >= 10) {
+            return;
+        }
+
         if (t.isLeaf == true) {
             words.add(word);
         }
