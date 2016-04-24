@@ -1,14 +1,24 @@
 import java.util.HashMap;
 import java.util.ArrayList;
 
+/**
+ * The trie data structure that is used to store lexicon words.
+ * @author Qingxiao Dong
+ */
 public class Trie {
     private TrieNode root;
- 
+
+    /**
+     * The Trie constructor.
+     */
     public Trie() {
         root = new TrieNode();
     }
  
-    // Inserts a word into the trie.
+    /**
+     * The method inserts a word into the trie.
+     * @param word the word to be inserted
+     */
     public void insert(String word) {
         HashMap<Character, TrieNode> children = root.children;
  
@@ -31,7 +41,11 @@ public class Trie {
         }
     }
  
-    // Returns if the word is in the trie.
+    /**
+     * The method returns if the word is in the trie.
+     * @param word the word to be searched
+     * @return true if the word is in the trie, false otherwise
+     */
     public boolean search(String word) {
         TrieNode t = searchNode(word);
  
@@ -40,16 +54,65 @@ public class Trie {
         else
             return false;
     }
- 
-    // Returns if there is any word in the trie
-    // that starts with the given prefix.
-    public boolean startsWith(String prefix) {
-        if(searchNode(prefix) == null) 
-            return false;
-        else
-            return true;
+
+    /**
+     * The method returns a list of words (up to ten) in the trie tree that 
+     * starts with the prefix. (This is for the auto-complete feature of the
+     * dictionary.)
+     * @param prefix the prefix of words
+     * @return a list of words that starts with the prefix
+     */
+    // 
+    public ArrayList<String> getWordsStartsWith(String prefix) {
+        ArrayList<String> words = new ArrayList<String>();
+        TrieNode t = searchNode(prefix);
+        if (t == null) {
+            return words;
+        }
+        searchWordsHelper(words, t, prefix);
+        return words;
     }
- 
+
+    /**
+     * Hepler class for getWordsStartsWith. It dfs the words (up to ten) that
+     * starts with the prefix
+     * @param words the list of words
+     * @param t current TrieNode
+     * @param word current word string
+     */
+    private void searchWordsHelper(ArrayList<String> words, TrieNode t, String word) {
+        // limit the size of returned list to 10
+        if (words.size() >= 10) {
+            return;
+        }
+
+        if (t.isLeaf == true) {
+            words.add(word);
+        }
+        for (char c : t.children.keySet()) {
+            searchWordsHelper(words, t.children.get(c), word + c);
+        }
+    }
+
+    /**
+     * Returns if there is any word in the trie that starts with the given prefix.
+     * @param prefix the prefix of words
+     * @return true if any word in the trie starts with the prefix, false otherwise
+     */
+    public boolean startsWith(String prefix) {
+        if(searchNode(prefix) == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Helper class for getWordsStartsWith and startsWith. It searches the node 
+     * that matches the given string.
+     * @param str the string to be searched
+     * @return the TrieNode that matches the given string
+     */
     private TrieNode searchNode(String str){
         HashMap<Character, TrieNode> children = root.children; 
         TrieNode t = null;
@@ -64,30 +127,5 @@ public class Trie {
         }
  
         return t;
-    }
-
-    // returns 10 words in the trie tree that starts with the prefix
-    public ArrayList<String> getWordsStartsWith(String prefix) {
-        ArrayList<String> words = new ArrayList<String>();
-        TrieNode t = searchNode(prefix);
-        if (t == null) {
-            return words;
-        }
-        searchWordsHelper(words, t, prefix);
-        return words;
-    }
-
-    private void searchWordsHelper(ArrayList<String> words, TrieNode t, String word) {
-        // limit the size of returned list to 10
-        if (words.size() >= 10) {
-            return;
-        }
-
-        if (t.isLeaf == true) {
-            words.add(word);
-        }
-        for (char c : t.children.keySet()) {
-            searchWordsHelper(words, t.children.get(c), word + c);
-        }
     }
 }
