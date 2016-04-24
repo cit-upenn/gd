@@ -14,16 +14,23 @@ public class SQLiteJDBCInitializer
       c = DriverManager.getConnection("jdbc:sqlite:dictionary.db");
       System.out.println("Opened database successfully");
 
-      // create table
+      // create table definitions
       stmt = c.createStatement();
       String sql = "CREATE TABLE DEFINITIONS " +
-                   "(WORD           TEXT    NOT NULL, " +
-                   " DEFNUM         INT     NOT NULL, " + 
-                   " DEF            TEXT    NOT NULL, " + 
-                   " PRIMARY KEY (WORD, DEFNUM) " + 
-                   " )"; 
+                    "(WORD           TEXT    NOT NULL, " +
+                    " DEFNUM         INT     NOT NULL, " + 
+                    " DEF            TEXT    NOT NULL, " + 
+                    " PRIMARY KEY (WORD, DEFNUM) " + 
+                    " )"; 
       stmt.executeUpdate(sql);
-      System.out.println("Table created successfully");
+      System.out.println("Table [definitions] created successfully");
+
+      // create table learning
+      sql = "CREATE TABLE LEARNING " +
+             "(WORD TEXT PRIMARY KEY NOT NULL " +
+             ")"; 
+      stmt.executeUpdate(sql);
+      System.out.println("Table [learning] created successfully");
 
       stmt.close();
       c.close();   
