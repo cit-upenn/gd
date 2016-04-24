@@ -1,47 +1,64 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class Parser {
-	public static void main (String[] args) {
-	    // The name of the file to open.
-        String fileName = "/Users/Yujie/Downloads/pg29765.txt";
+	
+	public static void main (String[] args) throws IOException {
+		
+        String fileName = "/Users/Yujie/Desktop/gd/pg29765.txt";               // directory where the dictionary is stored
+        
+        FileWriter fw = new FileWriter("/Users/Yujie/Desktop/gd/words.txt");   // directory to store the written file
+        
+        Set<String> words = new HashSet<String>();   // used to store the seen words. If seen before, do not write to the file
 
-        // This will reference one line at a time
-        String line = null;
-        // count the words that matched the regex to verify with the txt file
-        int ct = 0;
+        String line = null;                          // read one line each time
+        
+        int ct = 0;                                  // count the words that matched the regex to verify with the dictionary
+        int ctwritten = 0;                           // count the words that are written to the final file (repetition excluded)                     
 
         try {
-            // FileReader reads text files in the default encoding.
+        	
             FileReader fileReader = new FileReader(fileName);
 
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bR = new BufferedReader(fileReader);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            line = bR.readLine();
+            line = bufferedReader.readLine();
             
             while(line != null) {
             	if (line.matches("^[A-Z-]+")) {
             		System.out.println(line);
+            		if (!words.contains(line)) {     // if the current word is unseen before, write it to the file and add it to the set.
+            			words.add(line);
+            			fw.write(line+"\n");         // words are separated by a newline char
+            			ctwritten++;
+            		}
+            		
             		ct++;
                 }
-                line = bR.readLine();
+            	
+                line = bufferedReader.readLine();
             }   
 
-            System.out.println("######"+ct);
+            System.out.println("#words written to the file (repetition excluded): "+ctwritten);
+            System.out.println("#words in the original dictionary (repetition included): "+ct);
             
-            bR.close();         
-        }
-        catch(FileNotFoundException ex) {
-            System.out.println(
-                "Unable to open file '" + 
-                fileName + "'");                
-        }
-        catch(IOException ex) {
-            System.out.println("Error reading file '" + fileName + "'");                  
+            bufferedReader.close();
+            fw.close();
+            
+        } catch(FileNotFoundException ex) {
+        	
+            System.out.println( "Unable to open file '" + fileName + "'");
+            
+        } catch(IOException ex) {
+        	
+            System.out.println("Error reading file '" + fileName + "'");   
+            
         }
 	}
 }
