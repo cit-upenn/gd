@@ -10,10 +10,16 @@ import java.util.Set;
 public class Parser {
 	
 	public static void main (String[] args) throws IOException {
+
+        // error handling
+        if (args.length != 2) {
+            System.out.println("Please input two directories: 1. dir of the dictionary file; 2. dir to store the writeout.");
+            return;
+        }
 		
-        String fileName = args[0];               // directory where the dictionary is stored
+        String fileName = args[0];                   // directory where the dictionary is stored
         
-        FileWriter fw = new FileWriter(args[1]);   // directory to store the written file
+        FileWriter fw = new FileWriter(args[1]);     // directory to store the written file
         
         Set<String> words = new HashSet<String>();   // used to store the seen words. If seen before, do not write to the file
 
