@@ -11,9 +11,9 @@ public class Parser {
 	
 	public static void main (String[] args) throws IOException {
 		
-        String fileName = "/Users/Yujie/Desktop/gd/pg29765.txt";               // directory where the dictionary is stored
+        String fileName = args[0];               // directory where the dictionary is stored
         
-        FileWriter fw = new FileWriter("/Users/Yujie/Desktop/gd/words.txt");   // directory to store the written file
+        FileWriter fw = new FileWriter(args[1]);   // directory to store the written file
         
         Set<String> words = new HashSet<String>();   // used to store the seen words. If seen before, do not write to the file
 
