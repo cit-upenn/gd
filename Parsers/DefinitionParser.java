@@ -45,17 +45,17 @@ public class DefinitionParser {
 	            			current = newWord;                       // update the current word obj pointer
 	            		}
 	            		
-	                } else if (line.matches("^Defn:[^\n]+")) {       // if matches pattern such as: 1. (law), skip it.
-	                	
-	                } else if (line.matches("^[0-9]{1,2}[.][^\n]+")) { // second step: match the defn that starts with number.
-	                	
+	                } else if (line.matches("^[0-9]{1,2}[. (]{3}[^\n]+")) {
+	                	                                             // if matches pattern such as: 1. (law), skip it.  
+	                } else if (line.matches("^[0-9]{1,2}[.][^\n]+")) { 
+	                												 // second step: match the defn that starts with number.
 	                	String definition = "";
 	                	while (line.matches("[^\n]+")) {             // concatenate the sentences in that defn together,
 	                		definition += line + " ";                // since even inside one defn, parts are separated by \n.
 	                		line = bufferedReader.readLine();        // keep concatenating until we see a blank line.
 	                	}
 	                	
-	                	System.out.println("[Number Def] " + definition); // for debugging
+	                	// System.out.println("[Number Def] " + definition); // for debugging
 	                	
 	                	int indexOfSpace = definition.indexOf(" ");  // find the first occurrence of " "
 	                	String trimmedDefn = definition.substring(indexOfSpace+1);
@@ -69,7 +69,7 @@ public class DefinitionParser {
 	                		line = bufferedReader.readLine();
 	                	}
 	                	
-	                	System.out.println("[Number Def] " + definition);
+	                	// System.out.println("[Number Def] " + definition);
 	                	current.addDefinition(definition);
 	                	
 	                }
@@ -88,6 +88,11 @@ public class DefinitionParser {
 	            System.out.println("Error reading file '" + fileName + "'");   
 	            
 	        }
+	        
+//	        for (String word : words.keySet()) {
+//	        	if (word.equals("WHEELMAN"))
+//	        		words.get(word).print();
+//	        }
 
 		}
 
