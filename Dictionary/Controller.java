@@ -25,7 +25,7 @@ public class Controller {
 	private JPanel panel1;
 	private JButton searchButton;
 	private JTextField SearchText;
-	private JComboBox<String> vocabs;
+//	private JComboBox<String> vocabsBox;
 	
 	private View view;
 	private Model model;
@@ -40,13 +40,14 @@ public class Controller {
 		panel1 = new JPanel();
 		SearchText = new JTextField("", 15);
 		searchButton = new JButton("Search");
-		vocabs = new JComboBox<String>();
+//		vocabsBox = new JComboBox<String>();
 		
 		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(BorderLayout.NORTH, panel1);
 		panel1.setLayout(new FlowLayout());
 		panel1.add(SearchText);
+//		panel1.add(vocabsBox);
 		panel1.add(searchButton);
 		
 		frame.add(BorderLayout.CENTER, view);
@@ -59,7 +60,7 @@ public class Controller {
 	private void display() {
 		layOutComponents();
 		attachListenersToComponents();
-		frame.setSize(400, 540);
+		frame.setSize(600, 540);
 		frame.setVisible(true);
 	}
 
@@ -81,19 +82,18 @@ public class Controller {
 		SearchText.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
+				view.updateWords(SearchText.getText());
 				System.out.println("insert: " + SearchText.getText());
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
+				view.updateWords(SearchText.getText());
 				System.out.println("remove: " + SearchText.getText());
 			}
-
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
+				view.updateWords(SearchText.getText());
 				System.out.println("change");
 			}
 		    // implement the methods

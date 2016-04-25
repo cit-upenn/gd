@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 
-public class Model extends Observable{
+public class Model{
 
-	private Trie dict;
+	public Trie dict;
 	private String searchWord;
 	
 	
@@ -42,7 +42,7 @@ public class Model extends Observable{
 	public static void main(String[] args) {
 		Model m = new Model();
 		
-        ArrayList<String> words = m.dict.getWordsStartsWith("bra");
+        ArrayList<String> words = m.dict.getWordsStartsWith("ele");
         for (String w : words) {
             System.out.println(w);
         }
