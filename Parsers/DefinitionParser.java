@@ -36,6 +36,7 @@ public class DefinitionParser {
 	            
 	            while(line != null) {
 	            	if (line.matches("^[A-Z-]+")) {                  // first step: match the current vocab
+	            		
 	            		currentWord = line;
 	            		current = words.get(currentWord);            // try to get the corresponding word obj of the current entry
 	            		if (current == null) {                       // if it dne in our hashmap, 
@@ -43,22 +44,34 @@ public class DefinitionParser {
 	            			words.put(currentWord, newWord);         // and update our hashmap 
 	            			current = newWord;                       // update the current word obj pointer
 	            		}
-	                } else if (line.matches("^[0-9][.][^\n]+")) {    // second step: match the defn that starts with 1.
+	            		
+	                } else if (line.matches("^Defn:[^\n]+")) {       // if matches pattern such as: 1. (law), skip it.
+	                	
+	                } else if (line.matches("^[0-9]{1,2}[.][^\n]+")) { // second step: match the defn that starts with number.
+	                	
 	                	String definition = "";
 	                	while (line.matches("[^\n]+")) {             // concatenate the sentences in that defn together,
 	                		definition += line + " ";                // since even inside one defn, parts are separated by \n.
 	                		line = bufferedReader.readLine();        // keep concatenating until we see a blank line.
 	                	}
+	                	
 	                	System.out.println("[Number Def] " + definition); // for debugging
-	                	current.addDefinition(definition);           // add this defn to the current word's defn list
-	                } else if (line.matches("^Defn:[^\n]+")) {       // third step: match the defn that starts with "Defn".
+	                	
+	                	int indexOfSpace = definition.indexOf(" ");  // find the first occurrence of " "
+	                	String trimmedDefn = definition.substring(indexOfSpace+1);
+	                	current.addDefinition(trimmedDefn);          // add this defn to the current word's defn list
+	                	
+	                }  else if (line.matches("^Defn:[^\n]+")) {      // third step: match the defn that starts with "Defn".
+	                	
 	                	String definition = "";                   
 	                	while (line.matches("[^\n]+")) {             // same as above
 	                		definition += line;
 	                		line = bufferedReader.readLine();
 	                	}
+	                	
 	                	System.out.println("[Number Def] " + definition);
 	                	current.addDefinition(definition);
+	                	
 	                }
 	            	
 	                line = bufferedReader.readLine();    
