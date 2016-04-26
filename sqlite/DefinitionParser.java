@@ -90,7 +90,7 @@ public class DefinitionParser {
         }
         
         for (String word : words.keySet()) {
-        	words.get(word);
+        	SQLiteJDBC.insertIntoDictionary(words.get(word));
         }
 
 	}

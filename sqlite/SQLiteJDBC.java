@@ -31,10 +31,11 @@ public class SQLiteJDBC {
       Statement stmt = null;
       String wordStr = word.toString();
       ArrayList<String> defs = word.getDefinitions();
+      String sql = "";
       try {
         stmt = c.createStatement();
         for (int i = 0; i < defs.size(); i++) {
-          String sql = "INSERT INTO DEFINITIONS (WORD,DEFNUM,DEF) " +
+          sql = "INSERT INTO DEFINITIONS (WORD,DEFNUM,DEF) " +
                         "VALUES ('" + wordStr + "', " + (i + 1) + ", '" + 
                         defs.get(i) + "' );"; 
           stmt.executeUpdate(sql);
@@ -42,6 +43,7 @@ public class SQLiteJDBC {
         stmt.close();
         c.commit();
       } catch ( Exception e ) {
+        System.out.println(sql);
         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         return;
       }
