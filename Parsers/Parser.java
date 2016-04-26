@@ -37,7 +37,7 @@ public class Parser {
             line = bufferedReader.readLine();
             
             while(line != null) {
-            	if (line.matches("^[A-Z-]+")) {
+            	if (line.matches("^([A-Z][A-Z-]*|-[A-Z-]*[A-Z])\\s*$")) {
             		System.out.println(line);
             		if (!words.contains(line)) {     // if the current word is unseen before, write it to the file and add it to the set.
             			words.add(line);
