@@ -1,4 +1,4 @@
-package Dictionary;
+package dictionary;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,8 +17,8 @@ import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import Dictionary.db.SQLiteJDBC;
-import Dictionary.db.Word;
+import dictionary.db.SQLiteJDBC;
+import dictionary.db.Word;
 
 public class View extends Panel implements ListSelectionListener {
 

@@ -1,4 +1,4 @@
-package Dictionary;
+package dictionary;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -12,8 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import Dictionary.db.SQLiteJDBC;
-import Dictionary.db.Word;
+import dictionary.db.SQLiteJDBC;
+import dictionary.db.Word;
 
 
 /**
