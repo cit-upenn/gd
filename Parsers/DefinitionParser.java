@@ -58,8 +58,9 @@ public class DefinitionParser {
 	                	// System.out.println("[Number Def] " + definition); // for debugging
 	                	
 	                	int indexOfSpace = definition.indexOf(" ");  // find the first occurrence of " "
-	                	String trimmedDefn = definition.substring(indexOfSpace+1);
-	                	current.addDefinition(trimmedDefn);          // add this defn to the current word's defn list
+	                	String trimDef = definition.substring(indexOfSpace+1);
+	                	String finalDef = trimDef.replaceAll("'", "\\'");       // replace all single quotes by escape char
+	                	current.addDefinition(finalDef);             // add this defn to the current word's defn list
 	                	
 	                }  else if (line.matches("^Defn:[^\n]+")) {      // third step: match the defn that starts with "Defn".
 	                	
@@ -70,7 +71,8 @@ public class DefinitionParser {
 	                	}
 	                	
 	                	// System.out.println("[Number Def] " + definition);
-	                	current.addDefinition(definition);
+	                	String finalDef = definition.replaceAll("'", "\\'");    // replace all single quotes by escape char
+	                	current.addDefinition(finalDef);
 	                	
 	                }
 	            	
