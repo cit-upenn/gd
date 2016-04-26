@@ -12,18 +12,18 @@ public class SQLiteTester {
      */
     public static void main(String[] args) {
 
-        // /** test insert into dictionary  */
+         /** test insert into dictionary  */
         // Word word = new Word("connection");
         // word.addDefinition("a relationship in which a person, thing, or idea is linked or associated with something else.");
         // word.addDefinition("a supplier of narcotics.");
         // SQLiteJDBC.insertIntoDictionary(word);
 
-        // /** test select from dictionary */
+         /** test select from dictionary */
         // Word w = SQLiteJDBC.selectFromDictionary("main");
         // w.print();
         // SQLiteJDBC.selectFromDictionary("application").print();
 
-        // /** test add word to learn and get words to learn */
+         /** test add word to learn and get words to learn */
         // SQLiteJDBC.addWordToLearn("application");
         // SQLiteJDBC.addWordToLearn(word);
         // ArrayList<Word> words = SQLiteJDBC.getWordsToLearn();
@@ -31,7 +31,7 @@ public class SQLiteTester {
         //     wd.print();
         // }
 
-        // /** test remove word to learn and get words to learn */
+         /** test remove word to learn and get words to learn */
         // SQLiteJDBC.removeWordToLearn(word);
         // words = SQLiteJDBC.getWordsToLearn();
         // for (Word wd : words) {

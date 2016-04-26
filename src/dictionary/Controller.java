@@ -12,8 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import dictionary.db.SQLiteJDBC;
-import dictionary.db.Word;
+import sqlite.SQLiteJDBC;
+import sqlite.Word;
 
 
 /**

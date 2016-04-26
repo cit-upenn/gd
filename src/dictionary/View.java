@@ -17,8 +17,8 @@ import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import dictionary.db.SQLiteJDBC;
-import dictionary.db.Word;
+import sqlite.SQLiteJDBC;
+import sqlite.Word;
 
 public class View extends Panel implements ListSelectionListener {
 
