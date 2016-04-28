@@ -84,7 +84,7 @@ public class Controller {
 		frame.add(BorderLayout.CENTER, view);
 		
 		/* for thesaurus */
-//		String initialText = MerriamWebsterAPI.getThesaurusHtml("sense");
+//		String initialText = MerriamWebsterAPI.getThesaurusHtml("happy");
 //        htmlTextArea = new JTextArea(10, 20);
 //        htmlTextArea.setText(initialText);
 //        theLabel = new JLabel(initialText);
