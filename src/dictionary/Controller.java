@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,14 +33,20 @@ import sqlite.Word;
 public class Controller {
 
 	private JFrame frame;
+	private JPanel buttonPanel;
 	private JPanel panel1;
+	private JPanel panel2;
 	private JButton searchButton;
 	private JTextField SearchText;
+	private JButton wordsNoteButton;
 //	private JComboBox<String> vocabsBox;
 	
 	private JTextArea htmlTextArea;
 	private JLabel theLabel;
 	
+	private JButton addWordsButton;
+	private JButton removeWordsButton;
+
 	private View view;
 	private Model model;
 	
@@ -50,18 +57,29 @@ public class Controller {
 	
 	private void layOutComponents() {
 		frame = new JFrame("Good Dictionary");
+		buttonPanel = new JPanel();
 		panel1 = new JPanel();
+		panel2 = new JPanel();
 		SearchText = new JTextField("", 15);
 		searchButton = new JButton("Search");
+		wordsNoteButton = new JButton("wordsNote");
+		addWordsButton = new JButton("Add");
+		removeWordsButton = new JButton("Remove");
 //		vocabsBox = new JComboBox<String>();
 		
 		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(BorderLayout.NORTH, panel1);
+		buttonPanel.setLayout(new GridLayout(2, 1));
+		frame.add(BorderLayout.NORTH, buttonPanel);
 		panel1.setLayout(new FlowLayout());
 		panel1.add(SearchText);
-//		panel1.add(vocabsBox);
 		panel1.add(searchButton);
+		panel1.add(wordsNoteButton);
+		panel2.setLayout(new FlowLayout());
+		panel2.add(addWordsButton);
+		panel2.add(removeWordsButton);
+		buttonPanel.add(panel1);
+		buttonPanel.add(panel2);
 		
 		frame.add(BorderLayout.CENTER, view);
 		
@@ -78,7 +96,9 @@ public class Controller {
 //        rightPanel.setBackground(Color.WHITE);
 //        frame.add(BorderLayout.NORTH, rightPanel);
         /* end of thesaurus */
-		
+
+		addWordsButton.setEnabled(false);
+		removeWordsButton.setEnabled(false);
 	}
 	
 	/**
@@ -103,9 +123,38 @@ public class Controller {
 				Word word = SQLiteJDBC.selectFromDictionary(SearchText.getText().toUpperCase());
 				view.updateDefinitions(word);
 				word.print();
+				addWordsButton.setEnabled(true);
+				removeWordsButton.setEnabled(true);
 			}
 		});
 		
+		wordsNoteButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				view.showWordsNote();
+				addWordsButton.setEnabled(false);
+				removeWordsButton.setEnabled(false);
+			}
+		});
+		
+		addWordsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				model.addToWordsNote(SearchText.getText());
+				addWordsButton.setEnabled(false);
+			}
+		});
+		
+		removeWordsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				model.removeFromWordsNote(SearchText.getText());
+				removeWordsButton.setEnabled(false);
+			}
+		});
 		SearchText.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
