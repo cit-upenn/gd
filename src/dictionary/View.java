@@ -79,6 +79,19 @@ public class View extends Panel implements ListSelectionListener {
 		}
 
 	}
+	
+	public void showWordsNote() {
+		ArrayList<String> wordsNote = model.getWordsNote();
+		listModel.clear();
+		if (wordsNote.isEmpty()) {
+			listModel.addElement("   ");
+		} else {
+			candidateWords = wordsNote;
+			for (String word : candidateWords) {
+				listModel.addElement(word);
+			}
+		}
+	}
 
 	public void updateDefinitions(Word word) {
 		defArea.setText("");

@@ -6,17 +6,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
+
 import trie.*;
 
 public class Model{
 
 	public Trie dict;
 	private String searchWord;
+	private ArrayList<String> wordsNote;
 	
 	
 	public Model() {
 		dict = initData("words.txt");
 		searchWord = "";
+		wordsNote = new ArrayList<String>();
 	}
 	
 	private Trie initData(String filename) {
@@ -36,6 +39,20 @@ public class Model{
             System.out.println(e.getMessage());
         }
         return trieTree;
+	}
+	
+	public ArrayList<String> getWordsNote() {
+		return wordsNote;
+	}
+
+	public void addToWordsNote(String word) {
+		if (!wordsNote.contains(word)) {
+			wordsNote.add(word);
+		}
+	}
+	
+	public void removeFromWordsNote(String word) {
+		wordsNote.remove(word);
 	}
 	
 	
