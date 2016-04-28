@@ -57,33 +57,35 @@ public class Trie {
     }
 
     /**
-     * The method returns a list of words (up to ten) in the trie tree that 
+     * The method returns a list of words (up to numWords) in the trie tree that 
      * starts with the prefix. (This is for the auto-complete feature of the
      * dictionary.)
      * @param prefix the prefix of words
+     * @param threshold max number of words returned
      * @return a list of words that starts with the prefix
      */
     // 
-    public ArrayList<String> getWordsStartsWith(String prefix) {
+    public ArrayList<String> getWordsStartsWith(String prefix, int threshold) {
         ArrayList<String> words = new ArrayList<String>();
         TrieNode t = searchNode(prefix);
         if (t == null) {
             return words;
         }
-        searchWordsHelper(words, t, prefix);
+        searchWordsHelper(words, t, prefix, threshold);
         return words;
     }
 
     /**
-     * Hepler class for getWordsStartsWith. It dfs the words (up to ten) that
+     * Hepler class for getWordsStartsWith. It dfs the words (up to threshold) that
      * starts with the prefix
      * @param words the list of words
      * @param t current TrieNode
      * @param word current word string
+     * @param threshold size threshold of words searched
      */
-    private void searchWordsHelper(ArrayList<String> words, TrieNode t, String word) {
-        // limit the size of returned list to 10
-        if (words.size() >= 10) {
+    private void searchWordsHelper(ArrayList<String> words, TrieNode t, String word, int threshold) {
+        // limit the size of returned list
+        if (words.size() >= threshold) {
             return;
         }
 
@@ -91,7 +93,7 @@ public class Trie {
             words.add(word);
         }
         for (char c : t.children.keySet()) {
-            searchWordsHelper(words, t.children.get(c), word + c);
+            searchWordsHelper(words, t.children.get(c), word + c, threshold);
         }
     }
 

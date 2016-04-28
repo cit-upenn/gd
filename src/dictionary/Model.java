@@ -60,7 +60,7 @@ public class Model{
 	public static void main(String[] args) {
 		Model m = new Model();
 		
-        ArrayList<String> words = m.dict.getWordsStartsWith("ele");
+        ArrayList<String> words = m.dict.getWordsStartsWith("ele", 10);
         for (String w : words) {
             System.out.println(w);
         }

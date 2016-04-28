@@ -69,7 +69,7 @@ public class View extends Panel implements ListSelectionListener {
 	}
 
 	public void updateWords(String starter) {
-		ArrayList<String> recomWords = model.dict.getWordsStartsWith(starter);
+		ArrayList<String> recomWords = model.dict.getWordsStartsWith(starter, 50);
 		if (!recomWords.isEmpty()) {
 			candidateWords = recomWords;
 			listModel.clear();

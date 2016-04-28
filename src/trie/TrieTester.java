@@ -31,7 +31,7 @@ public class TrieTester {
         lexicon.insert("bra");
         lexicon.insert("brave");
         System.out.println(lexicon.search("bra"));
-        ArrayList<String> words = lexicon.getWordsStartsWith("bra");
+        ArrayList<String> words = lexicon.getWordsStartsWith("bra", 10);
         for (String w : words) {
             System.out.println(w);
         }
