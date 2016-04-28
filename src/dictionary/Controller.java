@@ -1,17 +1,25 @@
 package dictionary;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import merriam_webster_api.MerriamWebsterAPI;
 import sqlite.SQLiteJDBC;
 import sqlite.Word;
 
@@ -28,6 +36,9 @@ public class Controller {
 	private JButton searchButton;
 	private JTextField SearchText;
 //	private JComboBox<String> vocabsBox;
+	
+	private JTextArea htmlTextArea;
+	private JLabel theLabel;
 	
 	private View view;
 	private Model model;
@@ -53,6 +64,20 @@ public class Controller {
 		panel1.add(searchButton);
 		
 		frame.add(BorderLayout.CENTER, view);
+		
+		/* for thesaurus */
+//		String initialText = MerriamWebsterAPI.getThesaurusHtml("sense");
+//        htmlTextArea = new JTextArea(10, 20);
+//        htmlTextArea.setText(initialText);
+//        theLabel = new JLabel(initialText);
+//        theLabel.setVerticalAlignment(SwingConstants.CENTER);
+//        theLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//        JPanel rightPanel = new JPanel();
+//        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
+//        rightPanel.add(theLabel);
+//        rightPanel.setBackground(Color.WHITE);
+//        frame.add(BorderLayout.NORTH, rightPanel);
+        /* end of thesaurus */
 		
 	}
 	
