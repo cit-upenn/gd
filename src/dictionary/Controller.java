@@ -79,18 +79,19 @@ public class Controller {
 		frame.add(BorderLayout.CENTER, view);
 
 		/* for thesaurus */
-		// String initialText = MerriamWebsterAPI.getThesaurusHtml("sense");
-		// htmlTextArea = new JTextArea(10, 20);
-		// htmlTextArea.setText(initialText);
-		// theLabel = new JLabel(initialText);
-		// theLabel.setVerticalAlignment(SwingConstants.CENTER);
-		// theLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		// JPanel rightPanel = new JPanel();
-		// rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
-		// rightPanel.add(theLabel);
-		// rightPanel.setBackground(Color.WHITE);
-		// frame.add(BorderLayout.NORTH, rightPanel);
-		/* end of thesaurus */
+//		String initialText = MerriamWebsterAPI.getThesaurusHtml("happy");
+//        htmlTextArea = new JTextArea(10, 20);
+//        htmlTextArea.setText(initialText);
+//        theLabel = new JLabel(initialText);
+//        theLabel.setVerticalAlignment(SwingConstants.CENTER);
+//        theLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//        JPanel rightPanel = new JPanel();
+//        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
+//        rightPanel.add(theLabel);
+//        rightPanel.setBackground(Color.WHITE);
+//        frame.add(BorderLayout.NORTH, rightPanel);
+        /* end of thesaurus */
+
 
 		addWordsButton.setEnabled(false);
 		removeWordsButton.setEnabled(false);
