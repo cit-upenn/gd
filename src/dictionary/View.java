@@ -3,17 +3,15 @@ package dictionary;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Insets;
 import java.awt.Panel;
-import java.awt.TextArea;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -28,7 +26,7 @@ public class View extends Panel implements ListSelectionListener {
 	// JScrollPane listScroller;
 	// private TextArea autoCompArea;
 	private JTextArea defArea;
-	private String selectWord;
+	private String selectedWord;
 	private ArrayList<String> candidateWords;
 
 	public View(Model model) {
@@ -43,6 +41,8 @@ public class View extends Panel implements ListSelectionListener {
 		wordsList.addListSelectionListener(this);
 		wordsList.setVisibleRowCount(-1);
 		wordsList.setFixedCellWidth(100);
+//		wordsList.setBorder(
+//				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		// listScroller = new JScrollPane(wordsList);
 		// listScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		// listScroller.setPreferredSize(new Dimension(500, 500));
@@ -55,7 +55,6 @@ public class View extends Panel implements ListSelectionListener {
 				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		defArea.setFont(new Font("Helvetica", Font.PLAIN, 14));
 
-		selectWord = "";
 		candidateWords = new ArrayList<String>();
 
 		layOutComponents();
@@ -79,14 +78,14 @@ public class View extends Panel implements ListSelectionListener {
 		}
 
 	}
-	
+
 	public void showWordsNote() {
-		ArrayList<String> wordsNote = model.getWordsNote();
+		LinkedHashSet<String> wordsNote = model.getWordsNote();
 		listModel.clear();
 		if (wordsNote.isEmpty()) {
-			listModel.addElement("   ");
+//			listModel.addElement("   ");
 		} else {
-			candidateWords = wordsNote;
+			candidateWords = new ArrayList<String>(wordsNote);
 			for (String word : candidateWords) {
 				listModel.addElement(word);
 			}
@@ -94,8 +93,12 @@ public class View extends Panel implements ListSelectionListener {
 	}
 
 	public void updateDefinitions(Word word) {
+		if (word.toString().trim().length() == 0) {
+			return;
+		}
 		defArea.setText("");
-		defArea.append(word.toString());
+		selectedWord = word.toString().toLowerCase();
+		defArea.append(selectedWord);
 		defArea.append("\n\nDefinitions:\n\n");
 		for (int i = 0; i < word.getDefinitions().size(); i++) {
 			defArea.append("" + (i + 1) + ". ");
@@ -103,18 +106,29 @@ public class View extends Panel implements ListSelectionListener {
 			defArea.append("\n\n");
 		}
 	}
+	
+	private void cleanView() {
+		defArea.setText("");
+	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
+
 		if (e.getValueIsAdjusting() == false) {
 			if (wordsList.getSelectedIndex() != -1) {
 				int index = wordsList.getSelectedIndex();
 				Word word = SQLiteJDBC.selectFromDictionary(candidateWords.get(index).toUpperCase());
+				selectedWord = candidateWords.get(index).toLowerCase();
 				word.print();
 				updateDefinitions(word);
+			} else {
+				cleanView();
 			}
 		}
+	}
 
+	public String getSelectedWord() {
+		return selectedWord;
 	}
 
 }

@@ -1,29 +1,24 @@
 package dictionary;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import merriam_webster_api.MerriamWebsterAPI;
 import sqlite.SQLiteJDBC;
 import sqlite.Word;
-
 
 /**
  * The Controller sets up the GUI and handles all the controls (buttons, menu
@@ -39,22 +34,22 @@ public class Controller {
 	private JButton searchButton;
 	private JTextField SearchText;
 	private JButton wordsNoteButton;
-//	private JComboBox<String> vocabsBox;
-	
+	// private JComboBox<String> vocabsBox;
+
 	private JTextArea htmlTextArea;
 	private JLabel theLabel;
-	
+
 	private JButton addWordsButton;
 	private JButton removeWordsButton;
 
 	private View view;
 	private Model model;
-	
+
 	public Controller() {
 		model = new Model();
 		view = new View(model);
 	}
-	
+
 	private void layOutComponents() {
 		frame = new JFrame("Good Dictionary");
 		buttonPanel = new JPanel();
@@ -65,8 +60,8 @@ public class Controller {
 		wordsNoteButton = new JButton("wordsNote");
 		addWordsButton = new JButton("Add");
 		removeWordsButton = new JButton("Remove");
-//		vocabsBox = new JComboBox<String>();
-		
+		// vocabsBox = new JComboBox<String>();
+
 		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		buttonPanel.setLayout(new GridLayout(2, 1));
@@ -80,27 +75,27 @@ public class Controller {
 		panel2.add(removeWordsButton);
 		buttonPanel.add(panel1);
 		buttonPanel.add(panel2);
-		
+
 		frame.add(BorderLayout.CENTER, view);
-		
+
 		/* for thesaurus */
-//		String initialText = MerriamWebsterAPI.getThesaurusHtml("sense");
-//        htmlTextArea = new JTextArea(10, 20);
-//        htmlTextArea.setText(initialText);
-//        theLabel = new JLabel(initialText);
-//        theLabel.setVerticalAlignment(SwingConstants.CENTER);
-//        theLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        JPanel rightPanel = new JPanel();
-//        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
-//        rightPanel.add(theLabel);
-//        rightPanel.setBackground(Color.WHITE);
-//        frame.add(BorderLayout.NORTH, rightPanel);
-        /* end of thesaurus */
+		// String initialText = MerriamWebsterAPI.getThesaurusHtml("sense");
+		// htmlTextArea = new JTextArea(10, 20);
+		// htmlTextArea.setText(initialText);
+		// theLabel = new JLabel(initialText);
+		// theLabel.setVerticalAlignment(SwingConstants.CENTER);
+		// theLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		// JPanel rightPanel = new JPanel();
+		// rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
+		// rightPanel.add(theLabel);
+		// rightPanel.setBackground(Color.WHITE);
+		// frame.add(BorderLayout.NORTH, rightPanel);
+		/* end of thesaurus */
 
 		addWordsButton.setEnabled(false);
 		removeWordsButton.setEnabled(false);
 	}
-	
+
 	/**
 	 * Displays the GUI.
 	 */
@@ -111,12 +106,33 @@ public class Controller {
 		frame.setVisible(true);
 	}
 
-	
 	/**
 	 * Attaches listeners to the components, and schedules a Timer.
 	 */
 	private void attachListenersToComponents() {
 		// The Run button tells the Model to start
+		SearchText.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Word word = SQLiteJDBC.selectFromDictionary(SearchText.getText().toUpperCase());
+					view.updateDefinitions(word);
+					word.print();
+					addWordsButton.setEnabled(true);
+					removeWordsButton.setEnabled(true);
+				}
+			}
+		});
+		
+		// TODO:
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -127,31 +143,33 @@ public class Controller {
 				removeWordsButton.setEnabled(true);
 			}
 		});
-		
+
 		wordsNoteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				view.showWordsNote();
-				addWordsButton.setEnabled(false);
-				removeWordsButton.setEnabled(false);
+				addWordsButton.setEnabled(true);
+				removeWordsButton.setEnabled(true);
 			}
 		});
-		
+
 		addWordsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				model.addToWordsNote(SearchText.getText());
+//				model.addToWordsNote(SearchText.getText());
+//				addWordsButton.setEnabled(false);
+				model.addToWordsNote(view.getSelectedWord());
 				addWordsButton.setEnabled(false);
 			}
 		});
-		
+
 		removeWordsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				model.removeFromWordsNote(SearchText.getText());
+				model.removeFromWordsNote(view.getSelectedWord());
 				removeWordsButton.setEnabled(false);
 			}
 		});
@@ -159,23 +177,33 @@ public class Controller {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				view.updateWords(SearchText.getText());
-				System.out.println("insert: " + SearchText.getText());
+//				System.out.println("insert: " + SearchText.getText());
+				addWordsButton.setEnabled(true);
+				removeWordsButton.setEnabled(true);
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				view.updateWords(SearchText.getText());
-				System.out.println("remove: " + SearchText.getText());
+//				System.out.println("remove: " + SearchText.getText());
+				if (SearchText.getText().trim().length() == 0) {
+					addWordsButton.setEnabled(false);
+					removeWordsButton.setEnabled(false);
+				} else {
+					addWordsButton.setEnabled(true);
+					removeWordsButton.setEnabled(true);
+				}
 			}
+
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				view.updateWords(SearchText.getText());
-				System.out.println("change");
+//				System.out.println("change");
 			}
-		    // implement the methods
+			// implement the methods
 		});
 	}
-	
+
 	public static void main(String[] args) {
 		Controller c = new Controller();
 		c.display();
