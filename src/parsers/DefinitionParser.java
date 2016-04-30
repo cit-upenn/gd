@@ -94,6 +94,7 @@ public class DefinitionParser {
             
         }
         
+        // insert the parsed out words together with their defns in to our local db
         for (String word : words.keySet()) {
     	   SQLiteJDBC.insertIntoDictionary(words.get(word));
         }
