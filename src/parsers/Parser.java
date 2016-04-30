@@ -8,6 +8,14 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class reads in the local dictionary file,
+ * and generates a new file that contains all the vocabs
+ * that appeared in the dictionary (repeated words excluded).
+ * @author Yujie
+ *
+ */
+
 public class Parser {
 
 	public static void main(String[] args) throws IOException {

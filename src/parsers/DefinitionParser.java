@@ -8,6 +8,13 @@ import java.util.Map;
 import sqlite.SQLiteJDBC;
 import sqlite.Word;
 
+/**
+ * This class reads in the local dictionary file.
+ * Then parses out each vocab entry and its corresponding defns,
+ * and insert them into our local SQLite db.
+ * @author Yujie
+ *
+ */
 
 public class DefinitionParser {
 		
@@ -63,12 +70,12 @@ public class DefinitionParser {
                     int indexOfSpace = definition.indexOf(" ");  // find the first occurrence of " "
                     String trimDef = definition.substring(indexOfSpace+1);
                     String finalDef = trimDef.replace("'", "''");       // replace all single quotes by escape char
-                    current.addDefinition(finalDef);             // add this defn to the current word's defn list
+                    current.addDefinition(finalDef);                    // add this defn to the current word's defn list
                     
-                }  else if (line.matches("^Defn:[^\n]+")) {      // third step: match the defn that starts with "Defn".
+                }  else if (line.matches("^Defn:[^\n]+")) {             // third step: match the defn that starts with "Defn".
                     
                     String definition = "";                   
-                    while (line.matches("[^\n]+")) {             // same as above
+                    while (line.matches("[^\n]+")) {                    // same as above
                         definition += line;
                         line = bufferedReader.readLine();
                     }
