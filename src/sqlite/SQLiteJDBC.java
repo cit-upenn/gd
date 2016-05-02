@@ -17,7 +17,7 @@ public class SQLiteJDBC {
       try {
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection("jdbc:sqlite:dictionary.db");
-        c.setAutoCommit(false);
+        c.setAutoCommit(true);
         System.out.println("Opened database successfully");
       } catch ( Exception e ) {
         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -42,7 +42,6 @@ public class SQLiteJDBC {
           stmt.executeUpdate(sql);
         }
         stmt.close();
-        c.commit();
       } catch ( Exception e ) {
         System.out.println(sql);
         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -98,7 +97,6 @@ public class SQLiteJDBC {
                       "VALUES ('" + wordStr + "' );"; 
         stmt.executeUpdate(sql);
         stmt.close();
-        c.commit();
       } catch ( Exception e ) {
         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         return;
@@ -126,7 +124,6 @@ public class SQLiteJDBC {
         String sql = "DELETE FROM LEARNING WHERE WORD = '" + wordStr + "';"; 
         stmt.executeUpdate(sql);
         stmt.close();
-        c.commit();
       } catch ( Exception e ) {
         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         return;
@@ -138,16 +135,15 @@ public class SQLiteJDBC {
      * are in both DEFINITIONS and LEARNING table
      * @return all the Words (word and their definitions) that are in both DEFINITIONS and LEARNING table
      */
-    public static ArrayList<Word> getWordsToLearn() {
+    public static ArrayList<String> getWordsToLearn() {
       Statement stmt = null;
-      ArrayList<Word> words = new ArrayList<Word>();
+      ArrayList<String> words = new ArrayList<String>();
       try {
         stmt = c.createStatement();
         ResultSet rs = stmt.executeQuery( "SELECT * FROM LEARNING;" );
         while ( rs.next() ) {
           String wordStr = rs.getString("word");
-          Word word = selectFromDictionary(wordStr);
-          words.add(word);
+          words.add(wordStr);
         }
         rs.close();
         stmt.close();
@@ -157,4 +153,23 @@ public class SQLiteJDBC {
       }
       return words;
     }
+    
+    public static boolean hasWordToLearn(String wordStr) {
+        Statement stmt = null;
+        boolean found = false;
+        try {
+          stmt = c.createStatement();
+          ResultSet rs = stmt.executeQuery( "SELECT * FROM LEARNING WHERE WORD = '" + 
+            wordStr + "';" );
+          if (rs.next()) {
+        	  found = true;
+          }
+          rs.close();
+          stmt.close();
+        } catch ( Exception e ) {
+          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+          return found;
+        }
+        return found;
+      }
 }
