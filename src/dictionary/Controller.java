@@ -1,6 +1,7 @@
 package dictionary;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -8,15 +9,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import merriam_webster_api.MerriamWebsterAPI;
 import sqlite.SQLiteJDBC;
 import sqlite.Word;
 
@@ -34,10 +39,13 @@ public class Controller {
 	private JButton searchButton;
 	private JTextField SearchText;
 	private JButton wordsNoteButton;
+	private JButton MWSynonymButton;
+	private JButton translateButton;
+	private JButton backButton;
+//	private JScrollPane textScroll;s
 	// private JComboBox<String> vocabsBox;
-
-	private JTextArea htmlTextArea;
-	private JLabel theLabel;
+//	private JTextArea htmlTextArea;
+//	private JLabel theLabel;
 
 	private JButton addWordsButton;
 	private JButton removeWordsButton;
@@ -60,6 +68,10 @@ public class Controller {
 		wordsNoteButton = new JButton("wordsNote");
 		addWordsButton = new JButton("Add");
 		removeWordsButton = new JButton("Remove");
+		MWSynonymButton = new JButton("Thesaurus");
+		translateButton = new JButton("Translate");
+		backButton = new JButton("back");
+	
 		// vocabsBox = new JComboBox<String>();
 
 		frame.setLayout(new BorderLayout());
@@ -71,6 +83,9 @@ public class Controller {
 		panel1.add(searchButton);
 		panel1.add(wordsNoteButton);
 		panel2.setLayout(new FlowLayout());
+		panel2.add(backButton);
+		panel2.add(translateButton);
+		panel2.add(MWSynonymButton);
 		panel2.add(addWordsButton);
 		panel2.add(removeWordsButton);
 		buttonPanel.add(panel1);
@@ -89,7 +104,7 @@ public class Controller {
 //        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
 //        rightPanel.add(theLabel);
 //        rightPanel.setBackground(Color.WHITE);
-//        frame.add(BorderLayout.NORTH, rightPanel);
+//        frame.add(BorderLayout.SOUTH, rightPanel);
         /* end of thesaurus */
 
 
@@ -124,9 +139,7 @@ public class Controller {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Word word = SQLiteJDBC.selectFromDictionary(SearchText.getText().toUpperCase());
-					view.updateDefinitions(word);
-					word.print();
+					view.updateDefinitions(SearchText.getText());
 					addWordsButton.setEnabled(true);
 					removeWordsButton.setEnabled(true);
 				}
@@ -137,9 +150,7 @@ public class Controller {
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				Word word = SQLiteJDBC.selectFromDictionary(SearchText.getText().toUpperCase());
-				view.updateDefinitions(word);
-				word.print();
+				view.updateDefinitions(SearchText.getText());
 				addWordsButton.setEnabled(true);
 				removeWordsButton.setEnabled(true);
 			}
@@ -148,19 +159,35 @@ public class Controller {
 		wordsNoteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				view.showWordsNote();
 				addWordsButton.setEnabled(true);
 				removeWordsButton.setEnabled(true);
+			}
+		});
+		
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.backToDefinitions();
+			}
+		});
+		translateButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.appendTranslation();
+			}
+		});
+		
+		MWSynonymButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.getThesaurus();
 			}
 		});
 
 		addWordsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-//				model.addToWordsNote(SearchText.getText());
-//				addWordsButton.setEnabled(false);
 				model.addToWordsNote(view.getSelectedWord());
 				addWordsButton.setEnabled(false);
 			}
@@ -169,11 +196,11 @@ public class Controller {
 		removeWordsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				model.removeFromWordsNote(view.getSelectedWord());
 				removeWordsButton.setEnabled(false);
 			}
 		});
+		
 		SearchText.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
@@ -199,7 +226,6 @@ public class Controller {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				view.updateWords(SearchText.getText());
-//				System.out.println("change");
 			}
 			// implement the methods
 		});

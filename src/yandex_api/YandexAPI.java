@@ -112,6 +112,7 @@ public class YandexAPI {
 	
 	
 	public static void main (String[]args) {
-		System.out.println(chnTranslation("apple"));
+		String chinese = chnTranslation("apple");
+		System.out.println(chinese);
 	}
 }

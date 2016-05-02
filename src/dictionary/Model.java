@@ -9,12 +9,14 @@ import java.util.LinkedHashSet;
 import java.util.Observable;
 
 import trie.*;
+import yandex_api.YandexAPI;
 
 public class Model {
 
 	public Trie dict;
 	private String searchWord;
 	private LinkedHashSet<String> wordsNote;
+	private YandexAPI translate;
 
 	public Model() {
 		dict = initData("words.txt");
@@ -59,6 +61,10 @@ public class Model {
 		return wordsNote.contains(word);
 	}
 
+	public String getChinese(String english) {
+		return translate.chnTranslation(english);
+		
+	}
 	// Test
 	public static void main(String[] args) {
 		Model m = new Model();
