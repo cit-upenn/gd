@@ -150,7 +150,6 @@ public class View extends Panel implements ListSelectionListener {
 	}
 
 	public void getThesaurus() {
-		System.out.println("----1----");
 		String initialText = MerriamWebsterAPI.getThesaurusHtml("happy");
 		JTextArea htmlTextArea = new JTextArea(10, 20);
 		htmlTextArea.setText(initialText);
@@ -162,9 +161,9 @@ public class View extends Panel implements ListSelectionListener {
 		rightPanel.add(theLabel);
 		rightPanel.setBackground(Color.GRAY);
 		textScroller = new JScrollPane(rightPanel);
-//		this.remove(defArea);
-		this.add(BorderLayout.SOUTH, rightPanel);
-		System.out.println("---2---");
+		this.remove(defArea);
+		this.add(BorderLayout.CENTER, textScroller);
+		this.validate();
 	}
 
 	@Override
