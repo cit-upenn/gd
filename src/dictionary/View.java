@@ -84,12 +84,12 @@ public class View extends Panel implements ListSelectionListener {
 	}
 
 	public void showWordsNote() {
-		LinkedHashSet<String> wordsNote = model.getWordsNote();
+		ArrayList<String> wordsNote = model.getWordsNote();
 		listModel.clear();
 		if (wordsNote.isEmpty()) {
 //			listModel.addElement("   ");
 		} else {
-			candidateWords = new ArrayList<String>(wordsNote);
+			candidateWords = wordsNote;
 			for (String word : candidateWords) {
 				listModel.addElement(word);
 			}

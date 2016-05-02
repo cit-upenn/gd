@@ -42,10 +42,6 @@ public class Controller {
 	private JButton MWSynonymButton;
 	private JButton translateButton;
 	private JButton backButton;
-//	private JScrollPane textScroll;s
-	// private JComboBox<String> vocabsBox;
-//	private JTextArea htmlTextArea;
-//	private JLabel theLabel;
 
 	private JButton addWordsButton;
 	private JButton removeWordsButton;
