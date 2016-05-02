@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
@@ -32,6 +33,7 @@ public class View extends Panel implements ListSelectionListener {
 	private JTextArea defArea;
 	private String selectedWord;
 	private ArrayList<String> candidateWords;
+	private JScrollPane textScroller;
 
 	public View(Model model) {
 		this.model = model;
@@ -45,8 +47,9 @@ public class View extends Panel implements ListSelectionListener {
 		wordsList.addListSelectionListener(this);
 		wordsList.setVisibleRowCount(-1);
 		wordsList.setFixedCellWidth(100);
-//		wordsList.setBorder(
-//				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		// wordsList.setBorder(
+		// BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK),
+		// BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		// listScroller = new JScrollPane(wordsList);
 		// listScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		// listScroller.setPreferredSize(new Dimension(500, 500));
@@ -68,7 +71,22 @@ public class View extends Panel implements ListSelectionListener {
 		this.setLayout(new BorderLayout());
 		this.add(BorderLayout.WEST, wordsList);
 		this.add(BorderLayout.CENTER, defArea);
-
+		
+//		this.setLayout(new BorderLayout());
+//		this.add(BorderLayout.WEST, wordsList);
+//		
+//		String initialText = MerriamWebsterAPI.getThesaurusHtml("happy");
+//		JTextArea htmlTextArea = new JTextArea(10, 20);
+//		htmlTextArea.setText(initialText);
+//		JLabel theLabel = new JLabel(initialText);
+//		theLabel.setVerticalAlignment(SwingConstants.CENTER);
+//		theLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//		JPanel rightPanel = new JPanel();
+//		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
+//		rightPanel.add(theLabel);
+//		rightPanel.setBackground(Color.WHITE);
+//		JScrollPane textScroller = new JScrollPane(rightPanel);
+//		this.add(BorderLayout.CENTER, textScroller);
 	}
 
 	public void updateWords(String starter) {
@@ -87,7 +105,7 @@ public class View extends Panel implements ListSelectionListener {
 		LinkedHashSet<String> wordsNote = model.getWordsNote();
 		listModel.clear();
 		if (wordsNote.isEmpty()) {
-//			listModel.addElement("   ");
+			// listModel.addElement(" ");
 		} else {
 			candidateWords = new ArrayList<String>(wordsNote);
 			for (String word : candidateWords) {
@@ -101,53 +119,52 @@ public class View extends Panel implements ListSelectionListener {
 			return;
 		}
 		defArea.setText("");
+		Word word = SQLiteJDBC.selectFromDictionary(wordStr.toUpperCase());
+		if (word.getDefinitions().size()==0) {
+			defArea.append("No such word");
+			return;
+		}
 		selectedWord = wordStr.toLowerCase();
 		defArea.append(selectedWord);
 		defArea.append("\n\nDefinitions:\n\n");
-		Word word = SQLiteJDBC.selectFromDictionary(selectedWord.toUpperCase());
+		
 		for (int i = 0; i < word.getDefinitions().size(); i++) {
 			defArea.append("" + (i + 1) + ". ");
 			defArea.append(word.getDefinitions().get(i));
 			defArea.append("\n\n");
 		}
 	}
-	
+
 	public void backToDefinitions() {
 		updateDefinitions(selectedWord);
 	}
-	
+
 	private void cleanView() {
 		defArea.setText("");
 	}
-	
+
 	public void appendTranslation() {
 		String chinese = model.getChinese(selectedWord);
 		defArea.setText("");
 		defArea.append(chinese);
 	}
-	
+
 	public void getThesaurus() {
-//		this.removeAll();
-		/* for thesaurus */
+		System.out.println("----1----");
 		String initialText = MerriamWebsterAPI.getThesaurusHtml("happy");
-		System.out.println(initialText);
-		defArea.setText(initialText);
-//        JTextArea htmlTextArea = new JTextArea(10, 20);
-//        htmlTextArea.setText(initialText);
-//        JLabel theLabel = new JLabel(initialText);
-//        theLabel.setVerticalAlignment(SwingConstants.CENTER);
-//        theLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        JPanel rightPanel = new JPanel();
-//        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-//        this.add(htmlTextArea);
-        this.setBackground(Color.GRAY);
-//        frame.add(BorderLayout.NORTH, rightPanel);
-        /* end of thesaurus */
-//		String initialText = MerriamWebsterAPI.getThesaurusHtml(selectedWord);
-//		defArea = new JTextArea(10, 20);
-//		defArea.setText(initialText);
-//		JTextArea htmlTextArea = new JTextArea(10, 20);
-//		htmlTextArea.setText(initialText);
+		JTextArea htmlTextArea = new JTextArea(10, 20);
+		htmlTextArea.setText(initialText);
+		JLabel theLabel = new JLabel(initialText);
+		theLabel.setVerticalAlignment(SwingConstants.CENTER);
+		theLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JPanel rightPanel = new JPanel();
+		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
+		rightPanel.add(theLabel);
+		rightPanel.setBackground(Color.GRAY);
+		textScroller = new JScrollPane(rightPanel);
+//		this.remove(defArea);
+		this.add(BorderLayout.SOUTH, rightPanel);
+		System.out.println("---2---");
 	}
 
 	@Override
@@ -156,9 +173,8 @@ public class View extends Panel implements ListSelectionListener {
 		if (e.getValueIsAdjusting() == false) {
 			if (wordsList.getSelectedIndex() != -1) {
 				int index = wordsList.getSelectedIndex();
-//				Word word = SQLiteJDBC.selectFromDictionary(candidateWords.get(index).toUpperCase());
 				selectedWord = candidateWords.get(index).toLowerCase();
-				
+
 				updateDefinitions(selectedWord.toUpperCase());
 			} else {
 				cleanView();
