@@ -5,7 +5,7 @@
   <html>
   <body>
   	<xsl:for-each select="entry_list/entry">
-    <p><b><xsl:value-of select="term/hw"/></b>[<em><xsl:value-of select="fl"/></em>]</p>
+    <h3><b><xsl:value-of select="term/hw"/></b>[<em><xsl:value-of select="fl"/></em>]</h3>
     <ol>
     	<xsl:for-each select="sens">
     		<li><xsl:value-of select="mc"/></li>
@@ -22,7 +22,6 @@
     		<xsl:for-each select="ant">
     		<p><b>Antonyms: </b><a style="color:red;"><xsl:value-of select="."/></a></p>
     		</xsl:for-each>
-    		<br/>
     	</xsl:for-each>
     </ol>
     </xsl:for-each>

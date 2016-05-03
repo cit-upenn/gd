@@ -63,6 +63,7 @@ public class View extends Panel {
 		initialText = readFile("welcome.html", Charset.forName("UTF-8"));
 		textPane.setContentType("text/html");
 		textPane.setText(initialText);
+		textPane.setEditable(false);
 		textScroller = new JScrollPane(textPane);
 		
 		candidateWords = new ArrayList<String>();
