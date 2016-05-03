@@ -42,7 +42,7 @@ public class SQLiteTester {
         // for (Word wd : words) {
         //     wd.print();
         // }
-
+    	
         SQLiteJDBC.selectFromDictionary("A").print();
 
     }

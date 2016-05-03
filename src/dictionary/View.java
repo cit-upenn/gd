@@ -2,6 +2,10 @@ package dictionary;
 
 import java.awt.BorderLayout;
 import java.awt.Panel;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -56,9 +60,10 @@ public class View extends Panel {
 		// BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		// defArea.setFont(new Font("Helvetica", Font.PLAIN, 14));
 		textPane = new JTextPane();
-		initialText = "<html><body> <p> Welcome to our dictionary! </p></body></html>";
+		initialText = readFile("welcome.html", Charset.forName("UTF-8"));
 		textPane.setContentType("text/html");
 		textPane.setText(initialText);
+		textPane.setEditable(false);
 		textScroller = new JScrollPane(textPane);
 		
 		candidateWords = new ArrayList<String>();
@@ -109,14 +114,17 @@ public class View extends Panel {
 			selectedWord = " ";
 		} else {
 			selectedWord = wordStr.toLowerCase();
-			text += selectedWord;
-			text += "<br><br>Definitions:<br><br>";
+			text += "<h2>" + "&nbsp;" + "&nbsp;" + selectedWord + "</h2>";
+			//text += "<br><br>Definitions:<br><br>";
+			text += "<ol>";
 			for (int i = 0; i < word.getDefinitions().size(); i++) {
-				text += (i + 1) + ". ";
-				text += word.getDefinitions().get(i);
-				text += "<br><br>";
+				// text += (i + 1) + ". ";
+				text += "<li>" + word.getDefinitions().get(i) + "</li>";
+				text += "<br>";
 			}
+			text += "</ol>";
 		}
+		text += "</body></html>";
 		textPane.setText(text);
 		this.validate();
 
@@ -133,7 +141,15 @@ public class View extends Panel {
 
 	public void appendTranslation() {
 		String chinese = model.getChinese(selectedWord);
-		textPane.setText(chinese);
+		if (chinese.length() == 0) {
+			chinese = "无";
+		}
+		String text = "<html><body>";
+		text += "<p>&nbsp;&nbsp;<b>" + selectedWord + "</b> ----> " + chinese + "</p>";
+		// citation required by Yandex API
+		text += "<p>&nbsp;&nbsp;Powered by <a href='http://translate.yandex.com/' target='_blank'>Yandex.Translate</a>.</p>";
+		text += "</body></html>";
+		textPane.setText(text);
 		this.validate();
 	}
 
@@ -167,6 +183,17 @@ public class View extends Panel {
 
 	public String getSelectedWord() {
 		return selectedWord;
+	}
+	
+	static String readFile(String path, Charset encoding) {
+		String result = "";
+		try {
+			byte[] encoded = Files.readAllBytes(Paths.get(path));
+			result = new String(encoded, encoding);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }

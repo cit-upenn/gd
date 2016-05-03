@@ -81,6 +81,10 @@ public class Controller {
 		buttonPanel.add(panel2);
 		frame.add(BorderLayout.CENTER, view);
 
+		searchButton.setEnabled(false);
+		backButton.setEnabled(false);
+		translateButton.setEnabled(false);
+		MWSynonymButton.setEnabled(false);
 		addWordsButton.setEnabled(false);
 		removeWordsButton.setEnabled(false);
 		backButton.setEnabled(false);
@@ -121,6 +125,15 @@ public class Controller {
 						addWordsButton.setEnabled(true);
 						removeWordsButton.setEnabled(false);
 					}
+					if (!SQLiteJDBC.hasWordInDictionary(SearchText.getText())) {
+						addWordsButton.setEnabled(false);
+						MWSynonymButton.setEnabled(false);
+						translateButton.setEnabled(false);
+					} else {
+						MWSynonymButton.setEnabled(true);
+						translateButton.setEnabled(true);
+					}
+					backButton.setEnabled(false);
 				}
 			}
 		});
@@ -136,7 +149,15 @@ public class Controller {
 					addWordsButton.setEnabled(true);
 					removeWordsButton.setEnabled(false);
 				}
-				
+				if (!SQLiteJDBC.hasWordInDictionary(SearchText.getText())) {
+					addWordsButton.setEnabled(false);
+					MWSynonymButton.setEnabled(false);
+					translateButton.setEnabled(false);
+				} else {
+					MWSynonymButton.setEnabled(true);
+					translateButton.setEnabled(true);
+				}
+				backButton.setEnabled(false);
 			}
 		});
 
@@ -144,8 +165,11 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				view.showWordsNote();
-				addWordsButton.setEnabled(true);
-				removeWordsButton.setEnabled(true);
+				addWordsButton.setEnabled(false);
+				removeWordsButton.setEnabled(false);
+				translateButton.setEnabled(false);
+				MWSynonymButton.setEnabled(false);
+				backButton.setEnabled(false);
 			}
 		});
 		
@@ -154,6 +178,8 @@ public class Controller {
 			public void actionPerformed(ActionEvent e) {
 				view.backToDefinitions();
 				backButton.setEnabled(false);
+				translateButton.setEnabled(true);
+				MWSynonymButton.setEnabled(true);
 			}
 		});
 		
@@ -161,6 +187,8 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				view.appendTranslation();
+				MWSynonymButton.setEnabled(true);
+				translateButton.setEnabled(false);
 				backButton.setEnabled(true);
 			}
 		});
@@ -169,6 +197,8 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				view.getThesaurus();
+				translateButton.setEnabled(true);
+				MWSynonymButton.setEnabled(false);
 				backButton.setEnabled(true);
 			}
 		});
@@ -196,18 +226,16 @@ public class Controller {
 			public void insertUpdate(DocumentEvent e) {
 				view.updateWords(SearchText.getText());
 //				System.out.println("insert: " + SearchText.getText());
-				addWordsButton.setEnabled(false);
-				removeWordsButton.setEnabled(false);
-				backButton.setEnabled(false);
+				searchButton.setEnabled(true);
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				view.updateWords(SearchText.getText());
 //				System.out.println("remove: " + SearchText.getText());
-				addWordsButton.setEnabled(false);
-				removeWordsButton.setEnabled(false);
-				backButton.setEnabled(false);
+				if (SearchText.getText().length() == 0) {
+					searchButton.setEnabled(false);
+				}
 			}
 
 			@Override
@@ -236,6 +264,9 @@ public class Controller {
 							addWordsButton.setEnabled(true);
 							removeWordsButton.setEnabled(false);
 						}
+						MWSynonymButton.setEnabled(true);
+						translateButton.setEnabled(true);
+						backButton.setEnabled(false);
 					}
 				}
 			}
