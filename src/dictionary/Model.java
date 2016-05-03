@@ -18,7 +18,6 @@ public class Model {
 	public Trie dict;
 	private String searchWord;
 	// private LinkedHashSet<String> wordsNote;
-	private YandexAPI translate;
 
 	public Model() {
 		dict = initData("words.txt");
@@ -67,7 +66,7 @@ public class Model {
 	}
 
 	public String getChinese(String english) {
-		return translate.chnTranslation(english);
+		return YandexAPI.chnTranslation(english);
 		
 	}
 	// Test

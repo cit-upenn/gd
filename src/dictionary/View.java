@@ -16,7 +16,7 @@ import merriam_webster_api.MerriamWebsterAPI;
 import sqlite.SQLiteJDBC;
 import sqlite.Word;
 
-public class View extends Panel implements ListSelectionListener {
+public class View extends Panel {
 
 	private Model model;
 	private DefaultListModel<String> listModel;
@@ -32,12 +32,12 @@ public class View extends Panel implements ListSelectionListener {
 		this.model = model;
 		listModel = new DefaultListModel<String>();
 		listModel.addElement("         ");
-
+		selectedWord = " ";
 		wordsList = new JList<String>(listModel);
 		wordsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		wordsList.setLayoutOrientation(JList.VERTICAL);
 		wordsList.setSelectedIndex(0);
-		wordsList.addListSelectionListener(this);
+		// wordsList.addListSelectionListener(this);
 		wordsList.setVisibleRowCount(-1);
 		wordsList.setFixedCellWidth(100);
 		// wordsList.setBorder(
@@ -143,20 +143,23 @@ public class View extends Panel implements ListSelectionListener {
 		this.validate();
 	}
 
-	@Override
-	public void valueChanged(ListSelectionEvent e) {
-
-		if (e.getValueIsAdjusting() == false) {
-			if (wordsList.getSelectedIndex() != -1) {
-				int index = wordsList.getSelectedIndex();
-				selectedWord = candidateWords.get(index).toLowerCase();
-
-				updateDefinitions(selectedWord.toUpperCase());
-			} else {
-				cleanView();
-			}
-		}
+	public JList<String> getWordsList() {
+		return wordsList;
 	}
+	
+//	@Override
+//	public void valueChanged(ListSelectionEvent e) {
+//
+//		if (e.getValueIsAdjusting() == false) {
+//			if (wordsList.getSelectedIndex() != -1) {
+//				int index = wordsList.getSelectedIndex();
+//				selectedWord = candidateWords.get(index).toLowerCase();
+//				updateDefinitions(selectedWord.toUpperCase());
+//			} else {
+//				cleanView();
+//			}
+//		}
+//	}
 
 	public String getSelectedWord() {
 		return selectedWord;
