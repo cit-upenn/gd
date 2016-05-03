@@ -150,7 +150,7 @@ public class View extends Panel {
 	public JList<String> getWordsList() {
 		return wordsList;
 	}
-	
+
 //	@Override
 //	public void valueChanged(ListSelectionEvent e) {
 //
