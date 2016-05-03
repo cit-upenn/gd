@@ -108,7 +108,7 @@ public class View extends Panel {
 		}
 		String text = "<html><body>";
 		Word word = SQLiteJDBC.selectFromDictionary(wordStr.toUpperCase());
-		if (word == null || word.getDefinitions().size() == 0) {
+		if (word.getDefinitions().size() == 0) {
 			text += "<p>No such word!</p></body></html>";
 			selectedWord = " ";
 		} else {

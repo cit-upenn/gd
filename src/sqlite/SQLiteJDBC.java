@@ -74,6 +74,24 @@ public class SQLiteJDBC {
         }
         return word;
     }
+    
+    public static boolean hasWordInDictionary(String wordStr) {
+        Statement stmt = null;
+        boolean found = false;
+        try {
+          stmt = c.createStatement();
+          ResultSet rs = stmt.executeQuery( "SELECT * FROM DEFINITIONS WHERE WORD = '" + 
+            wordStr.toUpperCase() + "';" );
+          if ( rs.next() ) {
+            found = true;
+          }
+          rs.close();
+          stmt.close();
+        } catch ( Exception e ) {
+          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        return found;
+    }
 
     /**
      * The method add a word to the LEARNING table.

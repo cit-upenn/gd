@@ -125,7 +125,7 @@ public class Controller {
 						addWordsButton.setEnabled(true);
 						removeWordsButton.setEnabled(false);
 					}
-					if (SQLiteJDBC.selectFromDictionary(SearchText.getText()) == null) {
+					if (!SQLiteJDBC.hasWordInDictionary(SearchText.getText())) {
 						addWordsButton.setEnabled(false);
 						MWSynonymButton.setEnabled(false);
 						translateButton.setEnabled(false);
@@ -149,7 +149,7 @@ public class Controller {
 					addWordsButton.setEnabled(true);
 					removeWordsButton.setEnabled(false);
 				}
-				if (SQLiteJDBC.selectFromDictionary(SearchText.getText()) == null) {
+				if (!SQLiteJDBC.hasWordInDictionary(SearchText.getText())) {
 					addWordsButton.setEnabled(false);
 					MWSynonymButton.setEnabled(false);
 					translateButton.setEnabled(false);
