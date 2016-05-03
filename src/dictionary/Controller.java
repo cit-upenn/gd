@@ -1,7 +1,6 @@
 package dictionary;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,21 +8,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
-import merriam_webster_api.MerriamWebsterAPI;
-import sqlite.SQLiteJDBC;
-import sqlite.Word;
 
 /**
  * The Controller sets up the GUI and handles all the controls (buttons, menu
@@ -68,8 +58,6 @@ public class Controller {
 		translateButton = new JButton("Translate");
 		backButton = new JButton("back");
 	
-		// vocabsBox = new JComboBox<String>();
-
 		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		buttonPanel.setLayout(new GridLayout(2, 1));
@@ -86,23 +74,7 @@ public class Controller {
 		panel2.add(removeWordsButton);
 		buttonPanel.add(panel1);
 		buttonPanel.add(panel2);
-
 		frame.add(BorderLayout.CENTER, view);
-
-		/* for thesaurus */
-//		String initialText = MerriamWebsterAPI.getThesaurusHtml("happy");
-//        htmlTextArea = new JTextArea(10, 20);
-//        htmlTextArea.setText(initialText);
-//        theLabel = new JLabel(initialText);
-//        theLabel.setVerticalAlignment(SwingConstants.CENTER);
-//        theLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        JPanel rightPanel = new JPanel();
-//        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
-//        rightPanel.add(theLabel);
-//        rightPanel.setBackground(Color.WHITE);
-//        frame.add(BorderLayout.SOUTH, rightPanel);
-        /* end of thesaurus */
-
 
 		addWordsButton.setEnabled(false);
 		removeWordsButton.setEnabled(false);

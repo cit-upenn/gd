@@ -32,7 +32,7 @@ public class View extends Panel implements ListSelectionListener {
 		this.model = model;
 		listModel = new DefaultListModel<String>();
 		listModel.addElement("         ");
-
+		selectedWord = " ";
 		wordsList = new JList<String>(listModel);
 		wordsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		wordsList.setLayoutOrientation(JList.VERTICAL);
@@ -150,7 +150,6 @@ public class View extends Panel implements ListSelectionListener {
 			if (wordsList.getSelectedIndex() != -1) {
 				int index = wordsList.getSelectedIndex();
 				selectedWord = candidateWords.get(index).toLowerCase();
-
 				updateDefinitions(selectedWord.toUpperCase());
 			} else {
 				cleanView();
