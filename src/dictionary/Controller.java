@@ -21,8 +21,10 @@ import javax.swing.event.ListSelectionListener;
 import sqlite.SQLiteJDBC;
 
 /**
- * The Controller sets up the GUI and handles all the controls (buttons, menu
- * items, etc.)
+ * This is the Controller class that sets up the GUI and handles all the
+ * controls (buttons, textField)
+ * 
+ * @author liujue
  *
  */
 public class Controller {
@@ -44,11 +46,17 @@ public class Controller {
 	private View view;
 	private Model model;
 
+	/**
+	 * The constructor initialize the model and view.
+	 */
 	public Controller() {
 		model = new Model();
 		view = new View(model);
 	}
 
+	/**
+	 * Arranges the components and set the initial visibility.
+	 */
 	private void layOutComponents() {
 		frame = new JFrame("Good Dictionary");
 		buttonPanel = new JPanel();
@@ -62,7 +70,7 @@ public class Controller {
 		MWSynonymButton = new JButton("Thesaurus");
 		translateButton = new JButton("Translate");
 		backButton = new JButton("back");
-	
+
 		frame.setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		buttonPanel.setLayout(new GridLayout(2, 1));
@@ -101,17 +109,23 @@ public class Controller {
 	}
 
 	/**
-	 * Attaches listeners to the components, and schedules a Timer.
+	 * Attaches listeners to the components.
 	 */
 	private void attachListenersToComponents() {
-		// The Run button tells the Model to start
+
+		/**
+		 * Attach keyListener to SearchText. When user type return, it
+		 * automatically search and show the definition of the word typed in
+		 */
 		SearchText.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
+				// do nothing
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
+				// do nothing
 			}
 
 			@Override
@@ -137,7 +151,11 @@ public class Controller {
 				}
 			}
 		});
-		
+
+		/**
+		 * Attach ActionListener to searchButton. When user click Search, the
+		 * definitions of the word will show
+		 */
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -161,6 +179,10 @@ public class Controller {
 			}
 		});
 
+		/**
+		 * Attach ActionListener to wordsNoteButton. When the user click the
+		 * wordsNote, a list of words stored will show in the left side
+		 */
 		wordsNoteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -172,7 +194,12 @@ public class Controller {
 				backButton.setEnabled(false);
 			}
 		});
-		
+
+		/**
+		 * Attach ActionListener to backButton. After the user get the Chinese
+		 * translation or thesaurus of a word, the user can get back to the
+		 * initial definitions of the word by clicking the back button.
+		 */
 		backButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -182,27 +209,39 @@ public class Controller {
 				MWSynonymButton.setEnabled(true);
 			}
 		});
-		
+
+		/**
+		 * Attach ActionListener to translateButton. To show the Chinese
+		 * definition of an English word
+		 */
 		translateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.appendTranslation();
+				view.updateTranslation();
 				MWSynonymButton.setEnabled(true);
 				translateButton.setEnabled(false);
 				backButton.setEnabled(true);
 			}
 		});
-		
+
+		/**
+		 * Attach ActionListener to MWSynonymButton. To show the thesaurus of a
+		 * word.
+		 */
 		MWSynonymButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.getThesaurus();
+				view.updateThesaurus();
 				translateButton.setEnabled(true);
 				MWSynonymButton.setEnabled(false);
 				backButton.setEnabled(true);
 			}
 		});
 
+		/**
+		 * Attach ActionListener to addWordsButton. It will add current word
+		 * into wordsNote stored in local database.
+		 */
 		addWordsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -212,6 +251,10 @@ public class Controller {
 			}
 		});
 
+		/**
+		 * Attach ActionListener to removeWordsButton. If the current word is in
+		 * wordsNote, user is able to choose to remove it.
+		 */
 		removeWordsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -220,19 +263,24 @@ public class Controller {
 				addWordsButton.setEnabled(true);
 			}
 		});
-		
+
+		/**
+		 * Attach DocumenListener to SearchText. Each time when user type in or
+		 * delete a single character, the list of recommend words will get
+		 * updated by using the typed string as prefix of words.
+		 */
 		SearchText.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				view.updateWords(SearchText.getText());
-//				System.out.println("insert: " + SearchText.getText());
+				// System.out.println("insert: " + SearchText.getText());
 				searchButton.setEnabled(true);
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				view.updateWords(SearchText.getText());
-//				System.out.println("remove: " + SearchText.getText());
+				// System.out.println("remove: " + SearchText.getText());
 				if (SearchText.getText().length() == 0) {
 					searchButton.setEnabled(false);
 				}
@@ -242,13 +290,15 @@ public class Controller {
 			public void changedUpdate(DocumentEvent e) {
 				view.updateWords(SearchText.getText());
 			}
-			// implement the methods
 		});
-		
+
 		JList<String> wordsList = view.getWordsList();
-		
+
+		/**
+		 * Attach ListSelectionListenr to wordsList. When the user select a word
+		 * showed, the definitions of it will automatically display.
+		 */
 		wordsList.addListSelectionListener(new ListSelectionListener() {
-			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
@@ -273,6 +323,11 @@ public class Controller {
 		});
 	}
 
+	/**
+	 * the main function to run the program
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Controller c = new Controller();
 		c.display();
