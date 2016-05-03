@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -90,6 +91,11 @@ public class YandexAPI {
 	 * @return translation of the vocab
 	 */
 	public static String parseResponse(String response) {
+		try {
+			response = new String(response.getBytes(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		int firstIndex = response.indexOf("[\"") + 2;
 		int secondIndex = response.indexOf("\"]");
 		String translation = response.substring(firstIndex, secondIndex);
@@ -113,6 +119,6 @@ public class YandexAPI {
 	
 	public static void main (String[]args) {
 		String chinese = chnTranslation("apple");
-		System.out.println(chinese);
+//		System.out.println(chinese);
 	}
 }
