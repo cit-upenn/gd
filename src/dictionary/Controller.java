@@ -83,6 +83,7 @@ public class Controller {
 
 		addWordsButton.setEnabled(false);
 		removeWordsButton.setEnabled(false);
+		backButton.setEnabled(false);
 	}
 
 	/**
@@ -124,7 +125,6 @@ public class Controller {
 			}
 		});
 		
-		// TODO:
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -153,6 +153,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				view.backToDefinitions();
+				backButton.setEnabled(false);
 			}
 		});
 		
@@ -160,6 +161,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				view.appendTranslation();
+				backButton.setEnabled(true);
 			}
 		});
 		
@@ -167,6 +169,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				view.getThesaurus();
+				backButton.setEnabled(true);
 			}
 		});
 
@@ -195,6 +198,7 @@ public class Controller {
 //				System.out.println("insert: " + SearchText.getText());
 				addWordsButton.setEnabled(false);
 				removeWordsButton.setEnabled(false);
+				backButton.setEnabled(false);
 			}
 
 			@Override
@@ -203,6 +207,7 @@ public class Controller {
 //				System.out.println("remove: " + SearchText.getText());
 				addWordsButton.setEnabled(false);
 				removeWordsButton.setEnabled(false);
+				backButton.setEnabled(false);
 			}
 
 			@Override
@@ -223,6 +228,7 @@ public class Controller {
 					if (wordsList.getSelectedIndex() != -1) {
 						String wordStr = wordsList.getSelectedValue();
 						view.updateDefinitions(wordStr);
+						backButton.setEnabled(false);
 						if (SQLiteJDBC.hasWordToLearn(wordStr)) {
 							addWordsButton.setEnabled(false);
 							removeWordsButton.setEnabled(true);
