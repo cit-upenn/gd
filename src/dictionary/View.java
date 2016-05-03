@@ -106,6 +106,7 @@ public class View extends Panel {
 		Word word = SQLiteJDBC.selectFromDictionary(wordStr.toUpperCase());
 		if (word.getDefinitions().size() == 0) {
 			text += "<p>No such word!</p></body></html>";
+			selectedWord = " ";
 		} else {
 			selectedWord = wordStr.toLowerCase();
 			text += selectedWord;
@@ -137,6 +138,9 @@ public class View extends Panel {
 	}
 
 	public void getThesaurus() {
+		if (selectedWord.trim().length() == 0) {
+			return;
+		}
 		String initialText = MerriamWebsterAPI.getThesaurusHtml(selectedWord);
 		System.out.println(initialText);
 		textPane.setText(initialText);
