@@ -4,7 +4,6 @@
 <xsl:template match="/">
   <html>
   <body>
-  <h2>Thesaurus</h2>
   	<xsl:for-each select="entry_list/entry">
     <p><b><xsl:value-of select="term/hw"/></b>[<em><xsl:value-of select="fl"/>]</em></p>
     <ol>
