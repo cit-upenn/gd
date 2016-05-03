@@ -17,12 +17,10 @@ public class Model {
 
 	public Trie dict;
 	private String searchWord;
-	// private LinkedHashSet<String> wordsNote;
 
 	public Model() {
 		dict = initData("words.txt");
 		searchWord = "";
-		// wordsNote = new LinkedHashSet<String>();
 	}
 
 	private Trie initData(String filename) {

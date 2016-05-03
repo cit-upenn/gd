@@ -19,7 +19,7 @@ import java.io.*;
 /**
  * This class integrated Merriam-Webster API. It sends request to the API and get response
  * about the thesaurus of the word. It then converts the response string (XML) to HTML format 
- * using xslt. 
+ * using xslt file. 
  * @author Qingxiao Dong
  *
  */
@@ -43,6 +43,9 @@ public class MerriamWebsterAPI {
 			Transformer transformer = factory.newTransformer(stylesheetSource);
 			String url = API_URL + word + "?key=" + KEY;
 			String response = excutePost(url, "");
+			if (response == null) {
+				return "<html><body><h3>&nbsp;&nbsp;No response. Please verify your internet connection.</h3></body></html>";
+			}
 			File sourceFile = toFile(response, "thesaurus.xml");
 			Source inputSource = new StreamSource(sourceFile.getAbsoluteFile());
 			StringWriter writer = new StringWriter();
@@ -82,7 +85,7 @@ public class MerriamWebsterAPI {
 	 * Send http POST request to the API url and return the response in string.
 	 * @param targetURL the target url
 	 * @param urlParameters url parameters
-	 * @return response in string
+	 * @return response in string (XML format)
 	 */
 	private static String excutePost(String targetURL, String urlParameters)
 	  {
@@ -105,8 +108,7 @@ public class MerriamWebsterAPI {
 	      connection.setDoOutput(true);
 
 	      //Send request
-	      DataOutputStream wr = new DataOutputStream (
-	                  connection.getOutputStream ());
+	      DataOutputStream wr = new DataOutputStream (connection.getOutputStream ());
 	      wr.writeBytes (urlParameters);
 	      wr.flush ();
 	      wr.close ();
@@ -122,7 +124,9 @@ public class MerriamWebsterAPI {
 	      }
 	      rd.close();
 	      return response.toString();
-
+	    
+	    } catch (java.net.UnknownHostException e) { 
+	      return null;
 	    } catch (Exception e) {
 
 	      e.printStackTrace();

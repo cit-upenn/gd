@@ -56,7 +56,7 @@ public class Controller {
 		panel2 = new JPanel();
 		SearchText = new JTextField("", 15);
 		searchButton = new JButton("Search");
-		wordsNoteButton = new JButton("wordsNote");
+		wordsNoteButton = new JButton("Words Note");
 		addWordsButton = new JButton("Add");
 		removeWordsButton = new JButton("Remove");
 		MWSynonymButton = new JButton("Thesaurus");

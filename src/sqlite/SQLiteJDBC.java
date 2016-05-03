@@ -75,6 +75,11 @@ public class SQLiteJDBC {
         return word;
     }
     
+    /**
+     * Returns whether the dictionary table contains the word.
+     * @param wordStr the word to look up
+     * @return true if the dictionary table contains the word, false otherwise
+     */
     public static boolean hasWordInDictionary(String wordStr) {
         Statement stmt = null;
         boolean found = false;
@@ -98,7 +103,6 @@ public class SQLiteJDBC {
      * @param word the Word object to be added
      */
     public static void addWordToLearn(Word word) {
-      Statement stmt = null;
       String wordStr = word.toString();
       addWordToLearn(wordStr);
     }
@@ -126,7 +130,6 @@ public class SQLiteJDBC {
      * @param word the Word object to be removed
      */
     public static void removeWordToLearn(Word word) {
-      Statement stmt = null;
       String wordStr = word.toString();
       removeWordToLearn(wordStr);
     }
@@ -172,6 +175,11 @@ public class SQLiteJDBC {
       return words;
     }
     
+    /**
+     * Returns whether the learning table contains the word.
+     * @param wordStr the word to look up
+     * @return true if the learning table contains the word, false otherwise
+     */
     public static boolean hasWordToLearn(String wordStr) {
         Statement stmt = null;
         boolean found = false;

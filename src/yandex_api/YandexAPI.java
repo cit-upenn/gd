@@ -70,6 +70,10 @@ public class YandexAPI {
 			rd.close();
 			return response.toString();
 
+		} catch (java.net.UnknownHostException e) {                 // handles the exception when the user is not connected to the internet
+
+			return "[\"No response. Please verify your internet connection.\"]";
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
