@@ -87,6 +87,7 @@ public class Controller {
 		MWSynonymButton.setEnabled(false);
 		addWordsButton.setEnabled(false);
 		removeWordsButton.setEnabled(false);
+		backButton.setEnabled(false);
 	}
 
 	/**
@@ -137,7 +138,6 @@ public class Controller {
 			}
 		});
 		
-		// TODO:
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -256,6 +256,7 @@ public class Controller {
 					if (wordsList.getSelectedIndex() != -1) {
 						String wordStr = wordsList.getSelectedValue();
 						view.updateDefinitions(wordStr);
+						backButton.setEnabled(false);
 						if (SQLiteJDBC.hasWordToLearn(wordStr)) {
 							addWordsButton.setEnabled(false);
 							removeWordsButton.setEnabled(true);

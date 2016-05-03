@@ -56,7 +56,7 @@ public class View extends Panel {
 		// BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		// defArea.setFont(new Font("Helvetica", Font.PLAIN, 14));
 		textPane = new JTextPane();
-		initialText = "<html><body> <p> Welcome to our dictionary! </p></body></html>";
+		initialText = "<html><body> <p> Welcome to our dictionary! </p> <p> ¡la bienvenida a nuestro diccionario! </p> <p> 欢迎使用我们的好字典！</p> <p> 私たちの辞書へようこそ! </p> </body></html>";
 		textPane.setContentType("text/html");
 		textPane.setText(initialText);
 		textScroller = new JScrollPane(textPane);
@@ -133,7 +133,7 @@ public class View extends Panel {
 
 	public void appendTranslation() {
 		String chinese = model.getChinese(selectedWord);
-		textPane.setText(chinese);
+		textPane.setText(selectedWord + "&nbsp" +chinese);
 		this.validate();
 	}
 
@@ -150,7 +150,7 @@ public class View extends Panel {
 	public JList<String> getWordsList() {
 		return wordsList;
 	}
-	
+
 //	@Override
 //	public void valueChanged(ListSelectionEvent e) {
 //
