@@ -18,8 +18,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import sqlite.SQLiteJDBC;
-
 /**
  * This is the Controller class that sets up the GUI and handles all the
  * controls (buttons, textField)
@@ -132,14 +130,14 @@ public class Controller {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					view.updateDefinitions(SearchText.getText());
-					if (SQLiteJDBC.hasWordToLearn(SearchText.getText())) {
+					if (model.isInWordsNote(SearchText.getText())) {
 						addWordsButton.setEnabled(false);
 						removeWordsButton.setEnabled(true);
 					} else {
 						addWordsButton.setEnabled(true);
 						removeWordsButton.setEnabled(false);
 					}
-					if (!SQLiteJDBC.hasWordInDictionary(SearchText.getText())) {
+					if (model.searchWord(SearchText.getText()) == null) {
 						addWordsButton.setEnabled(false);
 						MWSynonymButton.setEnabled(false);
 						translateButton.setEnabled(false);
@@ -160,14 +158,14 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				view.updateDefinitions(SearchText.getText());
-				if (SQLiteJDBC.hasWordToLearn(SearchText.getText())) {
+				if (model.isInWordsNote(SearchText.getText())) {
 					addWordsButton.setEnabled(false);
 					removeWordsButton.setEnabled(true);
 				} else {
 					addWordsButton.setEnabled(true);
 					removeWordsButton.setEnabled(false);
 				}
-				if (!SQLiteJDBC.hasWordInDictionary(SearchText.getText())) {
+				if (model.searchWord(SearchText.getText()) == null) {
 					addWordsButton.setEnabled(false);
 					MWSynonymButton.setEnabled(false);
 					translateButton.setEnabled(false);
@@ -307,7 +305,7 @@ public class Controller {
 						String wordStr = wordsList.getSelectedValue();
 						view.updateDefinitions(wordStr);
 						backButton.setEnabled(false);
-						if (SQLiteJDBC.hasWordToLearn(wordStr)) {
+						if (model.isInWordsNote(wordStr)) {
 							addWordsButton.setEnabled(false);
 							removeWordsButton.setEnabled(true);
 						} else {

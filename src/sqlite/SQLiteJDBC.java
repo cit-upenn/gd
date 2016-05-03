@@ -62,9 +62,14 @@ public class SQLiteJDBC {
           stmt = c.createStatement();
           ResultSet rs = stmt.executeQuery( "SELECT * FROM DEFINITIONS WHERE WORD = '" + 
             wordStr.toUpperCase() + "';" );
-          while ( rs.next() ) {
+          boolean hasNext = rs.next();
+          if (!hasNext) {
+        	  return null;
+          }
+          while ( hasNext ) {
             String def = rs.getString("def");
             word.addDefinition(def);
+            hasNext = rs.next();
           }
           rs.close();
           stmt.close();
@@ -73,29 +78,6 @@ public class SQLiteJDBC {
           return null;
         }
         return word;
-    }
-    
-    /**
-     * Returns whether the dictionary table contains the word.
-     * @param wordStr the word to look up
-     * @return true if the dictionary table contains the word, false otherwise
-     */
-    public static boolean hasWordInDictionary(String wordStr) {
-        Statement stmt = null;
-        boolean found = false;
-        try {
-          stmt = c.createStatement();
-          ResultSet rs = stmt.executeQuery( "SELECT * FROM DEFINITIONS WHERE WORD = '" + 
-            wordStr.toUpperCase() + "';" );
-          if ( rs.next() ) {
-            found = true;
-          }
-          rs.close();
-          stmt.close();
-        } catch ( Exception e ) {
-          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-        }
-        return found;
     }
 
     /**
