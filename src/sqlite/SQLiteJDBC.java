@@ -57,13 +57,12 @@ public class SQLiteJDBC {
      */
     public static Word selectFromDictionary(String wordStr) {
         Statement stmt = null;
-        Word word = null;
+        Word word = new Word(wordStr);
         try {
           stmt = c.createStatement();
           ResultSet rs = stmt.executeQuery( "SELECT * FROM DEFINITIONS WHERE WORD = '" + 
             wordStr.toUpperCase() + "';" );
           while ( rs.next() ) {
-        	word = new Word(wordStr);
             String def = rs.getString("def");
             word.addDefinition(def);
           }

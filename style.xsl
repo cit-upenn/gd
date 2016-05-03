@@ -5,7 +5,7 @@
   <html>
   <body>
   	<xsl:for-each select="entry_list/entry">
-    <p><b><xsl:value-of select="term/hw"/></b>[<em><xsl:value-of select="fl"/>]</em></p>
+    <p><b><xsl:value-of select="term/hw"/></b>[<em><xsl:value-of select="fl"/></em>]</p>
     <ol>
     	<xsl:for-each select="sens">
     		<li><xsl:value-of select="mc"/></li>
