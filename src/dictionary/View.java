@@ -146,6 +146,8 @@ public class View extends Panel {
 		}
 		String text = "<html><body>";
 		text += "<p>&nbsp;&nbsp;<b>" + selectedWord + "</b> ----> " + chinese + "</p>";
+		// citation required by Yandex API
+		text += "<p>&nbsp;&nbsp;Powered by <a href='http://translate.yandex.com/' target='_blank'>Yandex.Translate</a>.</p>";
 		text += "</body></html>";
 		textPane.setText(text);
 		this.validate();
