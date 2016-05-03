@@ -147,8 +147,14 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				view.updateDefinitions(SearchText.getText());
-				addWordsButton.setEnabled(true);
-				removeWordsButton.setEnabled(true);
+				if (SQLiteJDBC.hasWordToLearn(SearchText.getText())) {
+					addWordsButton.setEnabled(false);
+					removeWordsButton.setEnabled(true);
+				} else {
+					addWordsButton.setEnabled(true);
+					addWordsButton.setEnabled(false);
+				}
+				
 			}
 		});
 
