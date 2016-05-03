@@ -142,7 +142,7 @@ public class View extends Panel {
 	public void appendTranslation() {
 		String chinese = model.getChinese(selectedWord);
 		
-		if (chinese.contains("Internet")) {                           // displays the error prompt when user's not connected to the internet
+		if (chinese.contains("internet connection")) {                           // displays the error prompt when user's not connected to the internet
 			String errorInfo = "<p>&nbsp;&nbsp;<b>" + chinese + "</p>";
 			textPane.setText(errorInfo);
 		} else {

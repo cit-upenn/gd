@@ -1,5 +1,4 @@
 package sqlite;
-import java.util.ArrayList;
 /**
  * Tester class for testing SQLiteJDBC methods.
  * @author Qingxiao Dong
