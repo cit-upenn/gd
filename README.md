@@ -5,8 +5,10 @@ Good Dictionary (GD)
 2. Project Description:
 --------------------------
 GD is a versatile English dictionary. In Good Dictionary, users can search for the definitions, the Chinese translation, and the thesaurus (synonyms, antonyms, etc.) of an English vocabulary. For the definition part, we parsed a dictionary txt file to populate our local sqlite database. Both the Thesaurus and the English-Chinese translation come from external APIs (Merriam-Webster Thesaurus API and Yandex API). In addition, our dictionary possesses two impressive features: 
-i)  predictive text/autocompletion- when the user starts typing in the search field, we will display vocabulary predictions in the left sidebar. To lookup a word, the user can either select a word from the prediction section or hit enter; 
-ii) word notebook- the user will be able to add unfamiliar vocabularies to the in-dictionary notebook for later reference. The saved notes are also stored in our database. 
+
+  i) predictive text/autocompletion- when the user starts typing in the search field, we will display vocabulary predictions in the left sidebar. To lookup a word, the user can either select a word from the prediction section or hit enter; 
+  
+  ii) word notebook- the user will be able to add unfamiliar vocabularies to the in-dictionary notebook for later reference. The saved notes are also stored in our database. 
 
 3. Technologies applied:
 --------------------------
