@@ -9,16 +9,16 @@ ii) word notebook- the user will be able to add unfamiliar vocabularies to the i
 
 
 3. Technologies applied:
-1. Trie Tree
-2. SQLite DB
-3. 2 External APIs (Merriam-Webster Thesaurus API and Yandex Translation API)
-4. Java GUI
-5. Model View Controller (MVC) Design Pattern
-6. Formal Design (CRC Diagram and Sequence Diagrams)
+1) Trie Tree
+2) SQLite DB
+3) 2 External APIs (Merriam-Webster Thesaurus API and Yandex Translation API)
+4) Java GUI
+5) Model View Controller (MVC) Design Pattern
+6) Formal Design (CRC Diagram and Sequence Diagrams)
 
 
 4. Data Structures utilized:
-1. Tree   2)  ArrayList   3)  HashMap   4)  HashSet
+1) Tree   2)  ArrayList   3)  HashMap   4)  HashSet
 
 
 5. General Work Breakdown:
